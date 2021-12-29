@@ -1,1 +1,1 @@
-# JSP_Board1
+# JSP_Board MVC Model2
