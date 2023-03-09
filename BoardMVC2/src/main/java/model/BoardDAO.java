@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class BoardDAO {
 	String id = "HUEKA";
-	String pw = "0814";
+	String pw = "****";
 	String url = "jdbc:oracle:thin:@localhost:1521/xepdb1";
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	
@@ -25,21 +25,21 @@ public class BoardDAO {
 		}
 	}
 	
-	// ÀüÃ¼ °Ô½Ã±ÛÀÇ °³¼ö¸¦ ¸®ÅÏÇÏ´Â ¸Ş¼Òµå
+	// ì „ì²´ ê²Œì‹œê¸€ì˜ ê°œìˆ˜ë¥¼ ë¦¬í„´í•˜ëŠ” ë©”ì†Œë“œ
 	public int getAllCount() {
-		// °Ô½Ã±Û ÀüÃ¼ ¼ö¸¦ ÀúÀåÇÏ´Â º¯¼ö
+		// ê²Œì‹œê¸€ ì „ì²´ ìˆ˜ë¥¼ ì €ì¥í•˜ëŠ” ë³€ìˆ˜
 		int count = 0;
 		getConn();
 		
 		try {
-			// Äõ¸®ÁØºñ
+			// ì¿¼ë¦¬ì¤€ë¹„
 			String sql = "SELECT COUNT(*) FROM BOARD";
-			// Äõ¸®¸¦ ½ÇÇàÇÒ °´Ã¼ ¼±¾ğ
+			// ì¿¼ë¦¬ë¥¼ ì‹¤í–‰í•  ê°ì²´ ì„ ì–¸
 			pstmt = con.prepareStatement(sql);
-			// Äõ¸® ½ÇÇà ÈÄ °á°ú¸¦ ¸®ÅÏ
+			// ì¿¼ë¦¬ ì‹¤í–‰ í›„ ê²°ê³¼ë¥¼ ë¦¬í„´
 			rs = pstmt.executeQuery();
-			if(rs.next()) { // µ¥ÀÌÅÍ°¡ ÀÖ´Ù¸é
-				count = rs.getInt(1); // ÀüÃ¼ °Ô½Ã±Û ¼ö
+			if(rs.next()) { // ë°ì´í„°ê°€ ìˆë‹¤ë©´
+				count = rs.getInt(1); // ì „ì²´ ê²Œì‹œê¸€ ìˆ˜
 			}
 			con.close();
 			
@@ -49,25 +49,25 @@ public class BoardDAO {
 		return count;
 	}
 	
-	// ¸ğµç(È­¸é¿¡ º¸¿©Áú µ¥ÀÌÅÍ¸¦ 10°³¾¿ ÃßÃâÇØ¼­ ¸®ÅÏÇÏ´Â ¸Ş¼Òµå
+	// ëª¨ë“ (í™”ë©´ì— ë³´ì—¬ì§ˆ ë°ì´í„°ë¥¼ 10ê°œì”© ì¶”ì¶œí•´ì„œ ë¦¬í„´í•˜ëŠ” ë©”ì†Œë“œ
 	public ArrayList<BoardBean> getAllBoard(int startRow, int endRow) {
 		ArrayList<BoardBean> list = new ArrayList<BoardBean>();
 		
 		getConn();
 		
 		try {
-			// Äõ¸® ÀÛ¼º (ÃÖ½Å±Û 10°³)
+			// ì¿¼ë¦¬ ì‘ì„± (ìµœì‹ ê¸€ 10ê°œ)
 			String sql = "SELECT * FROM (SELECT A.*, ROWNUM RNUM FROM (SELECT * FROM BOARD ORDER BY REF DESC, RE_STEP ASC) A)"
 						+ " WHERE RNUM >= ? AND RNUM <= ?";
-			// Äõ¸® ½ÇÇàÇÒ °´Ã¼ ¼±¾ğ
+			// ì¿¼ë¦¬ ì‹¤í–‰í•  ê°ì²´ ì„ ì–¸
 			pstmt = con.prepareStatement(sql);
-			// ? °ª ´ëÀÔ
+			// ? ê°’ ëŒ€ì…
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, endRow);
 			rs = pstmt.executeQuery();
-			// µ¥ÀÌÅÍ °³¼ö°¡ ¸î°³ÀÎÁö ¸ğ¸£±â¿¡ ¹İº¹¹®À» ÀÌ¿ëÇÏ¿© µ¥ÀÌÅÍ¸¦ ÃßÃâ
+			// ë°ì´í„° ê°œìˆ˜ê°€ ëª‡ê°œì¸ì§€ ëª¨ë¥´ê¸°ì— ë°˜ë³µë¬¸ì„ ì´ìš©í•˜ì—¬ ë°ì´í„°ë¥¼ ì¶”ì¶œ
 			while(rs.next()) {
-				// µ¥ÀÌÅÍ¸¦ ÆĞÅ°Â¡(°¡¹æ = BoardBean Å¬·¡½º¸¦ ÀÌ¿ë) ÇØÁÜ
+				// ë°ì´í„°ë¥¼ íŒ¨í‚¤ì§•(ê°€ë°© = BoardBean í´ë˜ìŠ¤ë¥¼ ì´ìš©) í•´ì¤Œ
 				BoardBean bean = new BoardBean();
 				bean.setNum(rs.getInt(1));
 				bean.setWriter(rs.getString(2));
@@ -80,7 +80,7 @@ public class BoardDAO {
 				bean.setReLevel(rs.getInt(9));
 				bean.setReadCount(rs.getInt(10));
 				bean.setContent(rs.getString(11));
-				// ÆĞÅ°Â¡ÇÑ µ¥ÀÌÅÍ¸¦ ArrayList¿¡ ÀúÀå
+				// íŒ¨í‚¤ì§•í•œ ë°ì´í„°ë¥¼ ArrayListì— ì €ì¥
 				list.add(bean);
 			}
 			con.close();
@@ -90,27 +90,27 @@ public class BoardDAO {
 		return list;
 	}
 	
-	// ÇÏ³ªÀÇ °Ô½Ã±ÛÀ» ÀúÀåÇÏ´Â ¸Ş¼Òµå È£Ãâ REF ±Û ±×·ì
+	// í•˜ë‚˜ì˜ ê²Œì‹œê¸€ì„ ì €ì¥í•˜ëŠ” ë©”ì†Œë“œ í˜¸ì¶œ REF ê¸€ ê·¸ë£¹
 	public void insertBoard(BoardBean bean) {
 		
 		getConn();
-		// ºóÅ¬·¡½º¿¡ ³Ñ¾î¿ÀÁö ¾Ê¾Ò´ø µ¥ÀÌÅÍµéÀ» ÃÊ±âÈ­ ÇØÁÖ¾î¾ßÇÑ´Ù.
-		int ref = 0;	// ±Û±×·ìÀ» ÀÇ¹Ì = Äõ¸®¸¦ ½ÇÇà½ÃÄÑ¼­ °¡Àå Å« ref °ªÀ» °¡Á®¿Â ÈÄ +1À» ´õÇØÁÖ¸é µÊ
-		int reStep = 1; // »õ ±ÛÀÌ±â¿¡ = ºÎ¸ğ±ÛÀÌ±â¿¡
-		int reLevel = 1; // »õ ±Û
+		// ë¹ˆí´ë˜ìŠ¤ì— ë„˜ì–´ì˜¤ì§€ ì•Šì•˜ë˜ ë°ì´í„°ë“¤ì„ ì´ˆê¸°í™” í•´ì£¼ì–´ì•¼í•œë‹¤.
+		int ref = 0;	// ê¸€ê·¸ë£¹ì„ ì˜ë¯¸ = ì¿¼ë¦¬ë¥¼ ì‹¤í–‰ì‹œì¼œì„œ ê°€ì¥ í° ref ê°’ì„ ê°€ì ¸ì˜¨ í›„ +1ì„ ë”í•´ì£¼ë©´ ë¨
+		int reStep = 1; // ìƒˆ ê¸€ì´ê¸°ì— = ë¶€ëª¨ê¸€ì´ê¸°ì—
+		int reLevel = 1; // ìƒˆ ê¸€
 		try {
-			// Äõ¸® ÀÛ¼º
+			// ì¿¼ë¦¬ ì‘ì„±
 			String refsql = "SELECT MAX(REF) FROM BOARD";
-			// Äõ¸® ½ÇÇà °´Ã¼
+			// ì¿¼ë¦¬ ì‹¤í–‰ ê°ì²´
 			pstmt = con.prepareStatement(refsql);
-			// Äõ¸® ½ÇÇà ÈÄ °á°ú¸¦ ¸®ÅÏ
+			// ì¿¼ë¦¬ ì‹¤í–‰ í›„ ê²°ê³¼ë¥¼ ë¦¬í„´
 			rs = pstmt.executeQuery();
-			if(rs.next()) { // °á°ú°ªÀÌ ÀÖ´Ù¸é
-				ref = rs.getInt(1) + 1; // °¡Àå Å« °ª¿¡ 1À» ´õÇØÁÜ
+			if(rs.next()) { // ê²°ê³¼ê°’ì´ ìˆë‹¤ë©´
+				ref = rs.getInt(1) + 1; // ê°€ì¥ í° ê°’ì— 1ì„ ë”í•´ì¤Œ
 			}
-			// µ¥ÀÌÅÍ¸¦ »ğÀÔÇÏ´Â Äõ¸® ½ÃÄö½º »ç¿ë
+			// ë°ì´í„°ë¥¼ ì‚½ì…í•˜ëŠ” ì¿¼ë¦¬ ì‹œí€€ìŠ¤ ì‚¬ìš©
 			String sql = "INSERT INTO BOARD VALUES(BOARD_SEQ.NEXTVAL,?,?,?,?,SYSDATE,?,?,?,0,?)";
-			// ? ¸ÅÇÎ
+			// ? ë§¤í•‘
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, bean.getWriter());
 			pstmt.setString(2, bean.getEmail());
@@ -130,27 +130,27 @@ public class BoardDAO {
 		
 	}
 	
-	// ÇÏ³ªÀÇ °Ô½Ã±ÛÀ» ÀĞ¾îµéÀÌ´Â ¸Ş¼Òµå ÀÛ¼º -> °Ô½Ã±ÛÀ» Å¬¸¯ÇÏ´Â ¼ø°£ Á¶È¸¼öµµ ¿Ã¶ó°¨
+	// í•˜ë‚˜ì˜ ê²Œì‹œê¸€ì„ ì½ì–´ë“¤ì´ëŠ” ë©”ì†Œë“œ ì‘ì„± -> ê²Œì‹œê¸€ì„ í´ë¦­í•˜ëŠ” ìˆœê°„ ì¡°íšŒìˆ˜ë„ ì˜¬ë¼ê°
 	public BoardBean getOneBoard(int num) {
 		getConn();
 		BoardBean bean = null;
 		
 		try {
-			// ÇÏ³ªÀÇ °Ô½Ã±ÛÀ» ÀĞ¾ú´Ù´Â Á¶È¸¼ö Áõ°¡
+			// í•˜ë‚˜ì˜ ê²Œì‹œê¸€ì„ ì½ì—ˆë‹¤ëŠ” ì¡°íšŒìˆ˜ ì¦ê°€
 			String countsql = "UPDATE BOARD SET READCOUNT = READCOUNT + 1 WHERE NUM = ?";
 			pstmt = con.prepareStatement(countsql);
 			pstmt.setInt(1, num);
-			// Äõ¸® ½ÇÇà
+			// ì¿¼ë¦¬ ì‹¤í–‰
 			pstmt.executeUpdate();
 			
-			// ÇÑ °Ô½Ã±Û¿¡ ´ëÇÑ Á¤º¸¸¦ ¸®ÅÏÇØÁÖ´Â Äõ¸®¸¦ ÀÛ¼º
+			// í•œ ê²Œì‹œê¸€ì— ëŒ€í•œ ì •ë³´ë¥¼ ë¦¬í„´í•´ì£¼ëŠ” ì¿¼ë¦¬ë¥¼ ì‘ì„±
 			String sql = "SELECT * FROM BOARD WHERE NUM = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, num);
-			// Äõ¸® ½ÇÇà ÈÄ °á°ú¸¦ ¸®ÅÏ
+			// ì¿¼ë¦¬ ì‹¤í–‰ í›„ ê²°ê³¼ë¥¼ ë¦¬í„´
 			rs = pstmt.executeQuery();
-			if(rs.next()) { // ÇÏ³ªÀÇ °Ô½Ã±ÛÀÌ Á¸ÀçÇÑ´Ù¸é
-				// µ¥ÀÌÅÍ¸¦ ÆĞÅ°Â¡(°¡¹æ = BoardBean Å¬·¡½º¸¦ ÀÌ¿ë) ÇØÁÜ
+			if(rs.next()) { // í•˜ë‚˜ì˜ ê²Œì‹œê¸€ì´ ì¡´ì¬í•œë‹¤ë©´
+				// ë°ì´í„°ë¥¼ íŒ¨í‚¤ì§•(ê°€ë°© = BoardBean í´ë˜ìŠ¤ë¥¼ ì´ìš©) í•´ì¤Œ
 				bean = new BoardBean();
 				bean.setNum(rs.getInt(1));
 				bean.setWriter(rs.getString(2));
@@ -171,32 +171,32 @@ public class BoardDAO {
 		}
 		return bean;
 	}
-	// ´äº¯±ÛÀ» ÀúÀåÇÏ´Â ¸Ş¼Òµå
+	// ë‹µë³€ê¸€ì„ ì €ì¥í•˜ëŠ” ë©”ì†Œë“œ
 	public void reInsertBoard(BoardBean bean) {
 		getConn();
-		int ref = bean.getRef(); // ±âÁ¸ÀÇ µ¥ÀÌÅÍ °¡Á®¿È
+		int ref = bean.getRef(); // ê¸°ì¡´ì˜ ë°ì´í„° ê°€ì ¸ì˜´
 		int reStep = bean.getReStep();
 		int reLevel = bean.getReLevel();
 		try {
-			////////// ÇÙ½É ÄÚµå
-			String levelsql = "UPDATE BOARD SET RE_LEVEL = RE_LEVEL + 1 WHERE REF=? AND RE_LEVEL > ?"; // °°Àº ±Û±×·ì ³» ±Ûº¸´Ù Å« ·¹º§
-			// Äõ¸® ½ÇÇà °´Ã¼
+			////////// í•µì‹¬ ì½”ë“œ
+			String levelsql = "UPDATE BOARD SET RE_LEVEL = RE_LEVEL + 1 WHERE REF=? AND RE_LEVEL > ?"; // ê°™ì€ ê¸€ê·¸ë£¹ ë‚´ ê¸€ë³´ë‹¤ í° ë ˆë²¨
+			// ì¿¼ë¦¬ ì‹¤í–‰ ê°ì²´
 			pstmt = con.prepareStatement(levelsql);
 			pstmt.setInt(1, ref);
 			pstmt.setInt(2, reLevel);
-			// Äõ¸® ½ÇÇà ÈÄ °á°ú¸¦ ¸®ÅÏ
+			// ì¿¼ë¦¬ ì‹¤í–‰ í›„ ê²°ê³¼ë¥¼ ë¦¬í„´
 			pstmt.executeUpdate();
-			// µ¥ÀÌÅÍ¸¦ »ğÀÔÇÏ´Â Äõ¸® ½ÃÄö½º »ç¿ë
+			// ë°ì´í„°ë¥¼ ì‚½ì…í•˜ëŠ” ì¿¼ë¦¬ ì‹œí€€ìŠ¤ ì‚¬ìš©
 			String sql = "INSERT INTO BOARD VALUES(BOARD_SEQ.NEXTVAL,?,?,?,?,SYSDATE,?,?,?,0,?)";
-			// ? ¸ÅÇÎ
+			// ? ë§¤í•‘
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, bean.getWriter());
 			pstmt.setString(2, bean.getEmail());
 			pstmt.setString(3, bean.getSubject());
 			pstmt.setString(4, bean.getPassword());
 			pstmt.setInt(5, ref);
-			pstmt.setInt(6, reStep+1); // ±âÁ¸ ºÎ¸ğ±ÛÀÇ ½ºÅÜº¸´Ù 1À» Áõ°¡
-			pstmt.setInt(7, reLevel); // ±âÁ¸ ºÎ¸ğ±ÛÀÇ ½ºÅÜº¸´Ù 1À» Áõ°¡
+			pstmt.setInt(6, reStep+1); // ê¸°ì¡´ ë¶€ëª¨ê¸€ì˜ ìŠ¤í…ë³´ë‹¤ 1ì„ ì¦ê°€
+			pstmt.setInt(7, reLevel); // ê¸°ì¡´ ë¶€ëª¨ê¸€ì˜ ìŠ¤í…ë³´ë‹¤ 1ì„ ì¦ê°€
 			pstmt.setString(8, bean.getContent());
 			
 			pstmt.executeUpdate();
@@ -207,20 +207,20 @@ public class BoardDAO {
 		}
 	}
 	
-	// Á¶È¸¼ö¸¦ Áõ°¡ÇÏÁö ¾Ê´Â ÇÏ³ªÀÇ °Ô½Ã±ÛÀ» ¸®ÅÏÇÏ´Â ¸Ş¼Òµå
+	// ì¡°íšŒìˆ˜ë¥¼ ì¦ê°€í•˜ì§€ ì•ŠëŠ” í•˜ë‚˜ì˜ ê²Œì‹œê¸€ì„ ë¦¬í„´í•˜ëŠ” ë©”ì†Œë“œ
 	public BoardBean getOneUpdateBoard(int num) {
 		getConn();
 		BoardBean bean = null;
 		
 		try {
-						// ÇÑ °Ô½Ã±Û¿¡ ´ëÇÑ Á¤º¸¸¦ ¸®ÅÏÇØÁÖ´Â Äõ¸®¸¦ ÀÛ¼º
+						// í•œ ê²Œì‹œê¸€ì— ëŒ€í•œ ì •ë³´ë¥¼ ë¦¬í„´í•´ì£¼ëŠ” ì¿¼ë¦¬ë¥¼ ì‘ì„±
 			String sql = "SELECT * FROM BOARD WHERE NUM = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, num);
-			// Äõ¸® ½ÇÇà ÈÄ °á°ú¸¦ ¸®ÅÏ
+			// ì¿¼ë¦¬ ì‹¤í–‰ í›„ ê²°ê³¼ë¥¼ ë¦¬í„´
 			rs = pstmt.executeQuery();
-			if(rs.next()) { // ÇÏ³ªÀÇ °Ô½Ã±ÛÀÌ Á¸ÀçÇÑ´Ù¸é
-				// µ¥ÀÌÅÍ¸¦ ÆĞÅ°Â¡(°¡¹æ = BoardBean Å¬·¡½º¸¦ ÀÌ¿ë) ÇØÁÜ
+			if(rs.next()) { // í•˜ë‚˜ì˜ ê²Œì‹œê¸€ì´ ì¡´ì¬í•œë‹¤ë©´
+				// ë°ì´í„°ë¥¼ íŒ¨í‚¤ì§•(ê°€ë°© = BoardBean í´ë˜ìŠ¤ë¥¼ ì´ìš©) í•´ì¤Œ
 				bean = new BoardBean();
 				bean.setNum(rs.getInt(1));
 				bean.setWriter(rs.getString(2));
@@ -242,32 +242,32 @@ public class BoardDAO {
 		return bean;
 	}
 	
-	// ÇÏ³ªÀÇ °Ô½Ã±ÛÀ» ¼öÁ¤ÇÏ´Â ¸Ş¼­µå
+	// í•˜ë‚˜ì˜ ê²Œì‹œê¸€ì„ ìˆ˜ì •í•˜ëŠ” ë©”ì„œë“œ
 	public void updateBoard(int num, String subject, String content) {
-		// µ¥ÀÌÅÍ º£ÀÌ½º ¿¬°á
+		// ë°ì´í„° ë² ì´ìŠ¤ ì—°ê²°
 		getConn();
 		try {
-			// Äõ¸® ÁØºñ Äõ¸® ½ÇÇàÇÒ °´Ã¼ ¼±¾ğ
+			// ì¿¼ë¦¬ ì¤€ë¹„ ì¿¼ë¦¬ ì‹¤í–‰í•  ê°ì²´ ì„ ì–¸
 			String sql = "UPDATE BOARD SET SUBJECT = ?, CONTENT = ? WHERE NUM = ?";
 			pstmt = con.prepareStatement(sql);
-			// ? °ª ´ëÀÔ
+			// ? ê°’ ëŒ€ì…
 			pstmt.setString(1, subject);
 			pstmt.setString(2, content);
 			pstmt.setInt(3, num);
-			// Äõ¸® ½ÇÇà
+			// ì¿¼ë¦¬ ì‹¤í–‰
 			pstmt.executeUpdate();
-			// ÀÚ¿ø ¹İ³³
+			// ìì› ë°˜ë‚©
 			con.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	// ÇÏ³ªÀÇ °Ô½Ã±ÛÀ» »èÁ¦ÇÏ´Â ¸Ş¼Òµå
+	// í•˜ë‚˜ì˜ ê²Œì‹œê¸€ì„ ì‚­ì œí•˜ëŠ” ë©”ì†Œë“œ
 	public void deleteBoard(int num) {
 		getConn();
 		
 		try {
-			// Äõ¸®ÁØºñ 
+			// ì¿¼ë¦¬ì¤€ë¹„ 
 			String sql = "DELETE FROM BOARD WHERE NUM = ?";
 			pstmt = con.prepareStatement(sql);
 			// ?
